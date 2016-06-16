@@ -2,6 +2,10 @@
     (function ($) {
         $(document).ready(function () {
             $(".loading").hide();
+
+            $('body').hide().fadeIn(1000);
+
+
         jQuery.validator.setDefaults({
             highlight: function (element, errorClass, validClass) {
                 if (element.type === "radio") {

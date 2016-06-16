@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
+using System.Net.Mail;
 
 namespace Crm.Models
 {
@@ -134,6 +135,40 @@ namespace Crm.Models
             }
         }
 
+        public void ForgotPassword(string email)
+        {
+            if (!string.IsNullOrEmpty(email))
+            {
+                if (isUsedEmail(email))
+                {
+                    
+                    dt_User user = db.FirstOrDefault(u => u.UserEmail == email);
+                    user.UserPassword = RandomPasswordHashed();
+                    db.UpdateSaveChanges();
+                    if (SendMail("aa@fides.com.tr", "aykutayvaz@windowslive.com", "Şifre sıfırlama", "Şifreniz:" + "  " + user.UserPassword))
+                    {
+                        Jsonmodel.Message = "Şifre sıfırlama maili başarıyla gönderilmiştir.";
+                        Jsonmodel.Success = "success";
+                    }
+                    else
+                    {
+                        Jsonmodel.Message = "Şifre sıfırlama başarısız.";
+                        Jsonmodel.Success = "fail";
+                    }
+                }
+            }
+        }
+
+        private string RandomPasswordHashed()
+        {
+            string pass = "";
+            DateTime now = new DateTime();
+            pass = Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(0, 8);
+            string hashedpassword = Convert.ToBase64String(
+              System.Security.Cryptography.SHA256.Create()
+              .ComputeHash(Encoding.UTF8.GetBytes(now.Date.ToLongTimeString())));
+            return hashedpassword;
+        }
 
         public void Register(string name,string email,string password)
         {
@@ -179,6 +214,50 @@ namespace Crm.Models
             //var x = new { value = value };
             json = new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(x);
             return json;
+        }
+
+        private bool SendMail(string mailfrom,string mailto,string subject,string body)
+        {
+            try
+            {
+                SmtpClient client = new SmtpClient();
+                client.Port = 587;
+                client.Host = "smtp.fides.com.tr";
+                client.EnableSsl = true;
+                client.Timeout = 10000;
+                client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                client.UseDefaultCredentials = false;
+                client.Credentials = new System.Net.NetworkCredential("aa@fides.com.tr", "aa@*2015");
+
+                MailMessage mm = new MailMessage(mailfrom,mailto, subject, body);
+                mm.BodyEncoding = UTF8Encoding.UTF8;
+                mm.DeliveryNotificationOptions = DeliveryNotificationOptions.OnFailure;
+
+                client.Send(mm);
+
+
+
+
+
+
+
+
+
+                //MailMessage mail = new MailMessage(mailfrom, mailto);
+                //SmtpClient client = new SmtpClient();
+                //client.Port = 587;
+                //client.DeliveryMethod = SmtpDeliveryMethod.Network;
+                //client.UseDefaultCredentials = false;
+                //client.Host = "smtp.fides.com.tr";
+                //mail.Subject = subject;
+                //mail.Body = body;
+                //client.Send(mail);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }

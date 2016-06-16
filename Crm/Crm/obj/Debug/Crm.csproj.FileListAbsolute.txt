@@ -29,3 +29,34 @@ c:\users\fd\documents\visual studio 2012\Projects\Crm\Crm\bin\System.Web.WebPage
 c:\users\fd\documents\visual studio 2012\Projects\Crm\Crm\obj\Debug\Crm.dll
 c:\users\fd\documents\visual studio 2012\Projects\Crm\Crm\obj\Debug\Crm.pdb
 C:\Users\FD\Documents\Visual Studio 2012\Projects\Crm\Crm\obj\Debug\Crm.csprojResolveAssemblyReference.cache
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\Crm.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\Crm.pdb
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\Antlr3.Runtime.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\EntityFramework.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\Microsoft.Web.Mvc.FixedDisplayModes.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\Newtonsoft.Json.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Net.Http.Formatting.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.Http.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.Http.WebHost.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.Mvc.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.Optimization.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.Providers.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.Razor.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.WebPages.Deployment.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.WebPages.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.WebPages.Razor.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\WebGrease.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\EntityFramework.xml
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\Newtonsoft.Json.xml
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Net.Http.Formatting.xml
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.Http.xml
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.Http.WebHost.xml
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.Mvc.xml
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.Razor.xml
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.WebPages.xml
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.WebPages.Deployment.xml
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\bin\System.Web.WebPages.Razor.xml
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\obj\Debug\Crm.csprojResolveAssemblyReference.cache
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\obj\Debug\Crm.dll
+C:\Users\FD\Desktop\gitworkspace\crmdemo\Crm\Crm\obj\Debug\Crm.pdb

@@ -3,6 +3,8 @@ using Crm.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Threading;
 using System.Web;
@@ -149,9 +151,49 @@ namespace Crm.Controllers
         }
 
 
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
 
-      
+        [HttpPost]
+        public string ForgotPass(FormCollection collection)
+        {
+            try
+            {
+                var fromAddress = new MailAddress("pau.aykutayvaz@gmail.com", "AykutAYVAZ");
+                var toAddress = new MailAddress("aa@fides.com.tr", "To Name");
+                const string fromPassword = "special04x";
+                const string subject = "Subject";
+                const string body = "Body";
 
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                    Timeout = 20000
+                };
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                }
+                return "success";
+            }
+            catch (Exception)
+            {
+                return "fail";
+            }
+          
+
+        }
 
        
     }
