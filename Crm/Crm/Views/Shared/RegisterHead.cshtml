@@ -1,0 +1,156 @@
+﻿
+
+
+
+<script>
+
+
+
+    (function ($) {
+
+        $(document).ready(function () {
+       
+
+            $(".loading").hide();
+
+            jQuery.validator.setDefaults({
+            highlight: function (element, errorClass, validClass) {
+                if (element.type === "radio") {
+                    this.findByName(element.name).addClass(errorClass).removeClass(validClass);
+                } else {
+                    $(element).closest('.form-group').removeClass('has-success has-feedback').addClass('has-error has-feedback');
+                    $(element).closest('.form-group').find('i.fa').remove();
+                    $(element).closest('.form-group').append('<i class="fa fa-exclamation fa-lg form-control-feedback"></i>');
+                    //$(element).closest('.form-group').find('label').html('12gg343g');
+                    //
+                }
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                if (element.type === "radio") {
+                    this.findByName(element.name).removeClass(errorClass).addClass(validClass);
+                } else {
+                    $(element).closest('.form-group').removeClass('has-error has-feedback').addClass('has-success has-feedback');
+                    $(element).closest('.form-group').find('i.fa').remove();
+                    $(element).closest('.form-group').append('<i class="fa fa-check fa-lg form-control-feedback"></i>');
+                    //$(element).closest('.form-group').find('label').html('wegwegwegewg');
+                }
+            }
+        });
+
+        $("form").validate({
+            rules: {
+                'NickName': {
+                    required: true,
+                },
+                    'Email': {
+                    required: true,
+                    email: true,
+                    minlength: 5,
+                    maxlength: 100
+                },
+                    'Password': {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 25
+                },
+                    'RepeatPassword': {
+                    required: true,
+                    minlength: 6,
+                    maxlength: 25,
+                    equalTo: "#Password"
+                }
+            },
+            messages: {
+                 'NickName': "Lütfen isminizi giriniz!",
+                 'Email': {
+                    required: "Email adresinizi giriniz.",
+                    email: "Lütfen geçerli email adresinizi giriniz.",
+                 },
+                 'Password': {
+                     required: "Şifrenizi giriniz.",
+                     minlength: jQuery.validator.format("Şifreniz en az {0} karakter olabilir.",6),
+                 },
+                 
+                 'RepeatPassword': {
+                     required: "Şifrenizi tekrar giriniz.",
+                     minlength: jQuery.validator.format("Şifreniz en az {0} karakter olabilir.", 6),
+                     equalTo: "Şifreniz uyuşmuyor.Lütfen tekrar giriniz.",
+                 }
+            },
+            submitHandler: function (form) {
+                var data = $(form).serialize();
+                var url=location.origin + '/Login/Register';
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,//location.origin + '/Login/Register',
+                    data: data,
+                    beforeSend: function () {
+                        // setting a timeout
+                        $(".loading").show();
+
+                    },
+                    complete: function () {
+                        $(".loading").hide();
+                    },
+                    crossDomain: true,
+                    success: function (data) {
+                        var obj = JSON.parse(data);
+                        if (obj.process == "success")
+                        {
+                            setTimeout(function () {
+                              window.location.href = location.origin + "/Login/Index?login=true";
+                             }, 1500);
+                        }
+                        else if (obj.process == "fail")
+                        {
+                            generateNotify('topLeft', obj.message, 'error', false);
+                        }
+
+                    },
+                    error: function (data) {
+                        alert("Ajax isteği sırasında hata oluştu");
+                    }
+                });
+
+
+            }
+        });
+    });
+})(jQuery)
+
+
+    </script>
+    <style>
+        body {
+        background-image:url('/Content/images.jpg');
+        background-repeat:repeat;
+        }
+        label.error {
+            color:#a94442;background-color:#f2dede;border-color:#ebccd1;
+        }
+
+        #container {
+            background-color:#eee;
+            padding:5%;
+            margin:auto;
+            margin-top:4%;
+            width:40%;
+        }
+        .form-control-feedback {
+            left:0px;
+        }
+        .form-control{
+            padding-left:30px;
+        }
+        .container-header {
+            text-align:center;
+            background-color:#2aa9ff;
+            color:white;
+            margin:auto;
+            margin-bottom:5%;
+            font-size:x-large;
+            padding:10px;
+        }
+
+    </style>

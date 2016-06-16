@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    Home babacan
+    @ViewBag.CurrentUserid
+    @ViewBag.CurrentUsername
+
+<script>
+    $(function () {
+        $("#Submit").click(function () {
+            var url=location.origin + "/Login/Logout";
+            $.post(url, function (data) {
+                var parsedJSON = JSON.parse(data);
+                if (parsedJSON.success == "success") {
+                    alert(parsedJSON.message);
+                }
+                else {
+                    alert(parsedJSON.message);
+                }
+                //alert(data);
+            });
+            setTimeout(function () {
+                window.location.href = location.origin + "/Login/Index";
+            }, 1000);
+        });
+    });
+</script>
+
+
+ <div class="form-group">
+    <input type="submit" name="Submit" id="Submit" value="Çıkış yap" />
+</div>
+
+
