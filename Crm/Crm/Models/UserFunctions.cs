@@ -45,6 +45,40 @@ namespace Crm.Models
             return null;
         }
 
+        public dt_User FindUserByVerification(string verificationcode)
+        {
+            var user = db.Where(u => u.VerificationCode == verificationcode).FirstOrDefault();
+            if (user != null)
+            {
+                return user;
+            }
+            return null;
+        }
+
+        public dt_User FindUserByEmail(string email)
+        {
+            var user = db.Where(u => u.UserEmail == email).FirstOrDefault();
+            if (user != null)
+            {
+                return user;
+            }
+            return null;
+        }
+
+        public string CreateVerification(string email,string hosturl)
+        {
+            var user = db.Where(u => u.UserEmail == email).FirstOrDefault();
+            if (user != null)
+            {
+                user.VerificationCode = RandomPasswordHashed();
+                db.UpdateSaveChanges();
+                string host = hosturl + "/Login/ChangePassword?code=" + user.VerificationCode;
+                return host;
+            }
+            return null;
+        }
+
+
         public bool isUsedEmail(string email)
         {
             bool isValid = false;
@@ -103,6 +137,7 @@ namespace Crm.Models
             
         }
 
+
         public bool Login(string email, string password,string check)
         {
             bool validateLogin = false;
@@ -143,9 +178,9 @@ namespace Crm.Models
                 {
                     
                     dt_User user = db.FirstOrDefault(u => u.UserEmail == email);
-                    user.UserPassword = RandomPasswordHashed();
+                    user.VerificationCode = RandomPasswordHashed();
                     db.UpdateSaveChanges();
-                    if (SendMail("aa@fides.com.tr", "aykutayvaz@windowslive.com", "Şifre sıfırlama", "Şifreniz:" + "  " + user.UserPassword))
+                    if (SendMail("aa@fides.com.tr", email, "Şifre sıfırlama", "Şifreniz:" + "  " + user.UserPassword))
                     {
                         Jsonmodel.Message = "Şifre sıfırlama maili başarıyla gönderilmiştir.";
                         Jsonmodel.Success = "success";
@@ -167,7 +202,18 @@ namespace Crm.Models
             string hashedpassword = Convert.ToBase64String(
               System.Security.Cryptography.SHA256.Create()
               .ComputeHash(Encoding.UTF8.GetBytes(now.Date.ToLongTimeString())));
-            return hashedpassword;
+            hashedpassword = hashedpassword.Replace("=", "");
+            hashedpassword = hashedpassword.Replace("+", "");
+            hashedpassword = hashedpassword.Replace("?", "");
+            hashedpassword = hashedpassword.Replace("+", "");
+            hashedpassword = hashedpassword.Replace(";", "");
+            hashedpassword = hashedpassword.Replace("/", "");
+            hashedpassword = hashedpassword.Replace(":", "");
+            hashedpassword = hashedpassword.Replace("@", "");
+            hashedpassword = hashedpassword.Replace("$", "");
+            hashedpassword = hashedpassword.Replace(",", "");
+            hashedpassword = hashedpassword.Replace("&", "");
+            return hashedpassword.Substring(0,40);
         }
 
         public void Register(string name,string email,string password)

@@ -57,7 +57,16 @@
 
                         },
                         success: function (data) {
-                            alert(data);
+
+                            if (data == "fail")
+                            {
+                                generateNotify('topLeft', "Mail gönderilemedi", 'error', false);
+                            }
+                            else if (data == "success")
+                            {
+                                generateNotify('topLeft', "Şifre Sıfırlama Maili Gönderildi", 'success', false);
+                            }
+
                             //var parsedJSON = JSON.parse(data);
                             //alert(parsedJSON.message);
                             //alert(parsedJSON.result.kullanıcı_id);
@@ -67,6 +76,9 @@
 
 
                             //alert(parsedJSON.items.length);
+                        },
+                        complete: function () {
+                            $(".loading").hide();
                         },
                         error: function (data) {
                             alert("Ajax isteği sırasında hata oluştu");

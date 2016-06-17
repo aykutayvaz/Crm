@@ -164,41 +164,86 @@ namespace Crm.Controllers
                 //var fromAddress = new MailAddress("pau.aykutayvaz@gmail.com", "AykutAYVAZ");
                 //var toAddress = new MailAddress("aa@fides.com.tr", "To Name");
                 //const string fromPassword = "special04x";
-                var fromAddress = new MailAddress("aa@fides.com.tr", "AykutAYVAZ");
-                var toAddress = new MailAddress("aykutayvaz@windowslive.com", "To Name");
-                const string fromPassword = "aa@*2015";
 
-                const string subject = "SubjectDeneme";
-                const string body = "Body";
+                UserFunctions usercontrol = new UserFunctions();
+                if (!string.IsNullOrEmpty(collection["email"]))
+                {
+                    string email = collection["email"];
+                    if (usercontrol.isUsedEmail(email))
+                    {
+                        string verificationurl = usercontrol.CreateVerification(email, Request.Url.Authority);
+                        
 
-                var smtp = new SmtpClient
-                {
-                    Host = "smtp.fides.com.tr",
-                    Port = 587,
-                    EnableSsl = false,//EnableSsl = true gmailde
-                    DeliveryMethod = SmtpDeliveryMethod.Network,
-                    UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
-                    Timeout = 20000
-                };
-                using (var message = new MailMessage(fromAddress, toAddress)
-                {
-                    Subject = subject,
-                    Body = body
-                })
-                {
-                    smtp.Send(message);
+
+                        var fromAddress = new MailAddress("aa@fides.com.tr", "AykutAYVAZ");
+                        var toAddress = new MailAddress(email, "Sayın kullanıcı");
+                        const string fromPassword = "aa@*2015";
+
+                        const string subject = "Şifre Sıfırlama";
+
+                        string url = "<a href='" + verificationurl + "'>" + verificationurl + "</a>";
+
+                        string messagebody = "Şifre sıfırlama isteği: \n " + "Alttaki linkten şifrenizi sıfırlayabilirsiniz \n" + url;
+
+                        string body = String.Format(messagebody);
+
+                       
+                        
+                        var smtp = new SmtpClient
+                        {
+                            Host = "smtp.fides.com.tr",
+                            Port = 587,
+                            EnableSsl = false,//EnableSsl = true gmailde
+                            DeliveryMethod = SmtpDeliveryMethod.Network,
+                            UseDefaultCredentials = false,
+                            Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+                            Timeout = 20000
+                            
+                        };
+                        using (var message = new MailMessage(fromAddress, toAddress)
+                        {
+                            IsBodyHtml=true,
+                            Subject = subject,
+                            Body = body
+                        })
+                        {
+                            smtp.Send(message);
+                        }
+                        return "success";
+                    }
+                    return "fail";
                 }
-                return "success";
             }
             catch (Exception)
             {
                 return "fail";
             }
-          
 
+            return "fail";
         }
 
-       
+        public ActionResult ChangePassword()
+        {
+            //if (string.IsNullOrEmpty(Request.QueryString["code"]))
+            //    return RedirectToAction("Index", "AccessDenied");
+            //else 
+            //{
+                UserFunctions usercontrol = new UserFunctions();
+                string verification = Request.QueryString["code"];
+                dt_User user = usercontrol.FindUserByVerification(verification);
+                if (user != null)
+                {
+                //    ViewBag.userid = user.UserId;
+                    ViewBag.username = "12";
+                //    return View();
+                }
+                ViewBag.username = verification;
+            //    else
+            //    {
+            //        return RedirectToAction("Index", "AccessDenied");
+            //    }
+            //}
+            return View();
+        }
     }
 }
