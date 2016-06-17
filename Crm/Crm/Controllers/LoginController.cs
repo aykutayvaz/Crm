@@ -161,17 +161,21 @@ namespace Crm.Controllers
         {
             try
             {
-                var fromAddress = new MailAddress("pau.aykutayvaz@gmail.com", "AykutAYVAZ");
-                var toAddress = new MailAddress("aa@fides.com.tr", "To Name");
-                const string fromPassword = "special04x";
-                const string subject = "Subject";
+                //var fromAddress = new MailAddress("pau.aykutayvaz@gmail.com", "AykutAYVAZ");
+                //var toAddress = new MailAddress("aa@fides.com.tr", "To Name");
+                //const string fromPassword = "special04x";
+                var fromAddress = new MailAddress("aa@fides.com.tr", "AykutAYVAZ");
+                var toAddress = new MailAddress("aykutayvaz@windowslive.com", "To Name");
+                const string fromPassword = "aa@*2015";
+
+                const string subject = "SubjectDeneme";
                 const string body = "Body";
 
                 var smtp = new SmtpClient
                 {
-                    Host = "smtp.gmail.com",
+                    Host = "smtp.fides.com.tr",
                     Port = 587,
-                    EnableSsl = true,
+                    EnableSsl = false,//EnableSsl = true gmailde
                     DeliveryMethod = SmtpDeliveryMethod.Network,
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
