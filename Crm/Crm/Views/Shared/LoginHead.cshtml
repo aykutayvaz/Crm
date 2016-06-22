@@ -84,18 +84,30 @@
                         $(".loading").show();
                         
                     },
+                    complete: function ()
+                    {
+                        $(".loading").hide();
+                    },
                     success: function (data) {
-                        alert(data);
-                        //var parsedJSON = JSON.parse(data);
+                        //alert(data);
+                        var obj = JSON.parse(data);
                         //alert(parsedJSON.message);
                         //alert(parsedJSON.result.kullanıcı_id);
                         //for (var i = 0; i < parsedJSON.items.length; i++) {
                         //    alert(parsedJSON.items[i].name);
                         //}
+                        if (obj.process == "success") {
 
-                        setTimeout(function () {
-                            window.location.href = location.origin + "/Home/Index";
-                        }, 1500);
+                            generateNotify('topLeft', obj.message, 'success', false);
+
+                            setTimeout(function () {
+                                window.location.href = location.origin + "/Home/Index";
+                            }, 1500);
+                        }
+                        else
+                        {
+                            generateNotify('topLeft', obj.message, 'error', false);
+                        }
 
                         //alert(parsedJSON.items.length);
                     },

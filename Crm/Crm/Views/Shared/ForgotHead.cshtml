@@ -57,14 +57,14 @@
 
                         },
                         success: function (data) {
-
-                            if (data == "fail")
+                            var obj = JSON.parse(data);
+                            if (obj.process == "fail")
                             {
-                                generateNotify('topLeft', "Mail gönderilemedi", 'error', false);
+                                generateNotify('topLeft', obj.message, 'error', false);
                             }
-                            else if (data == "success")
+                            else if (obj.process == "success")
                             {
-                                generateNotify('topLeft', "Şifre Sıfırlama Maili Gönderildi", 'success', false);
+                                generateNotify('topLeft', obj.message, 'success', false);
                             }
 
                             //var parsedJSON = JSON.parse(data);

@@ -31,12 +31,10 @@ namespace Crm.Models
         public dt_User FindUser(string email, string password)
         {
             //password karsılastırıldı hashed karsılastırılcak
-            string hashedpassword = Convert.ToBase64String(
-          System.Security.Cryptography.SHA256.Create()
-          .ComputeHash(Encoding.UTF8.GetBytes(password)));
+            string hashedpassword = Hash(password);
             //using (db)
             //{
-                var user = db.Where(u => u.UserPassword == password && u.UserEmail == email).FirstOrDefault();
+                var user = db.Where(u => u.UserPassword == hashedpassword && u.UserEmail == email).FirstOrDefault();
                 if (user != null)
                 {
                     return user;
@@ -78,6 +76,12 @@ namespace Crm.Models
             return null;
         }
 
+        public void ChangePassword(dt_User user,string password)
+        {
+            user.UserPassword = Hash(password);
+            user.VerificationCode = "0";
+            db.UpdateSaveChanges();
+        }
 
         public bool isUsedEmail(string email)
         {
@@ -117,7 +121,7 @@ namespace Crm.Models
                 //{
                     dt_User kisi = new dt_User();
                     kisi.UserName = name;
-                    kisi.UserPassword = password;
+                    kisi.UserPassword = Hash(password);
                     kisi.UserEmail = email;
                     kisi.RegisterDate = DateTime.Now;
                     kisi.Photo = "~/Content/img/avatar.png";
@@ -201,7 +205,7 @@ namespace Crm.Models
             pass = Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(0, 8);
             string hashedpassword = Convert.ToBase64String(
               System.Security.Cryptography.SHA256.Create()
-              .ComputeHash(Encoding.UTF8.GetBytes(now.Date.ToLongTimeString())));
+              .ComputeHash(Encoding.UTF8.GetBytes(pass)));
             hashedpassword = hashedpassword.Replace("=", "");
             hashedpassword = hashedpassword.Replace("+", "");
             hashedpassword = hashedpassword.Replace("?", "");
@@ -214,6 +218,26 @@ namespace Crm.Models
             hashedpassword = hashedpassword.Replace(",", "");
             hashedpassword = hashedpassword.Replace("&", "");
             return hashedpassword.Substring(0,40);
+        }
+
+        public string Hash(string value)
+        {
+            string hashedpassword = Convert.ToBase64String(
+                         System.Security.Cryptography.SHA256.Create()
+                         .ComputeHash(Encoding.UTF8.GetBytes(value)));
+            hashedpassword = hashedpassword.Replace("=", "");
+            hashedpassword = hashedpassword.Replace("+", "");
+            hashedpassword = hashedpassword.Replace("?", "");
+            hashedpassword = hashedpassword.Replace("+", "");
+            hashedpassword = hashedpassword.Replace(";", "");
+            hashedpassword = hashedpassword.Replace("/", "");
+            hashedpassword = hashedpassword.Replace(":", "");
+            hashedpassword = hashedpassword.Replace("@", "");
+            hashedpassword = hashedpassword.Replace("$", "");
+            hashedpassword = hashedpassword.Replace(",", "");
+            hashedpassword = hashedpassword.Replace("&", "");
+            return hashedpassword.Substring(0, 40);
+            
         }
 
         public void Register(string name,string email,string password)

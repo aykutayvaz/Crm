@@ -1,6 +1,6 @@
 ﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "~/Views/Home/_Layout.cshtml";
 }
 
     Home babacan
@@ -9,7 +9,7 @@
 
 <script>
     $(function () {
-        $("#Submit").click(function () {
+        $(".Logout").click(function () {
             var url=location.origin + "/Login/Logout";
             $.post(url, function (data) {
                 var parsedJSON = JSON.parse(data);
@@ -29,8 +29,8 @@
 </script>
 
 
- <div class="form-group">
+@* <div class="form-group">
     <input type="submit" name="Submit" id="Submit" value="Çıkış yap" />
-</div>
+</div>*@
 
 

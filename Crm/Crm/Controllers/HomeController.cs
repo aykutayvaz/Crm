@@ -12,10 +12,10 @@ namespace Crm.Controllers
         //
         // GET: /Home/
 
-        [CustomAuthorize(Roles = "superadmin")]
+        //[CustomAuthorize(Roles = "superadmin")]
         public ActionResult Index()
         {
-            ViewBag.CurrentUsername = this.User.Identity.Name;
+            //ViewBag.CurrentUsername = this.User.Identity.Name;
             
             //ViewBag.CurrentUserid = Request.Cookies["User"].Value.ToString();
 

@@ -159,20 +159,21 @@ namespace Crm.Controllers
         [HttpPost]
         public string ForgotPass(FormCollection collection)
         {
+            UserFunctions usercontrol = new UserFunctions();
             try
             {
                 //var fromAddress = new MailAddress("pau.aykutayvaz@gmail.com", "AykutAYVAZ");
                 //var toAddress = new MailAddress("aa@fides.com.tr", "To Name");
                 //const string fromPassword = "special04x";
 
-                UserFunctions usercontrol = new UserFunctions();
+                
                 if (!string.IsNullOrEmpty(collection["email"]))
                 {
                     string email = collection["email"];
                     if (usercontrol.isUsedEmail(email))
                     {
                         string verificationurl = usercontrol.CreateVerification(email, Request.Url.Authority);
-                        
+
 
 
                         var fromAddress = new MailAddress("aa@fides.com.tr", "AykutAYVAZ");
@@ -187,8 +188,8 @@ namespace Crm.Controllers
 
                         string body = String.Format(messagebody);
 
-                       
-                        
+
+
                         var smtp = new SmtpClient
                         {
                             Host = "smtp.fides.com.tr",
@@ -198,52 +199,96 @@ namespace Crm.Controllers
                             UseDefaultCredentials = false,
                             Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
                             Timeout = 20000
-                            
+
                         };
                         using (var message = new MailMessage(fromAddress, toAddress)
                         {
-                            IsBodyHtml=true,
+                            IsBodyHtml = true,
                             Subject = subject,
                             Body = body
                         })
                         {
                             smtp.Send(message);
                         }
-                        return "success";
+                        usercontrol.Jsonmodel.Message = "Sıfırlama maili başarıyla gönderilmiştir.";
+                        usercontrol.Jsonmodel.Success = "success";
+
                     }
-                    return "fail";
+                    else
+                    {
+                        usercontrol.Jsonmodel.Message = "Email kullanılmıyor";
+                        usercontrol.Jsonmodel.Success = "fail";
+                    }
                 }
             }
             catch (Exception)
             {
-                return "fail";
+                usercontrol.Jsonmodel.Message = "Sıfırlama maili gönderilirken hata oluştu";
+                usercontrol.Jsonmodel.Success = "fail";
             }
 
-            return "fail";
+            return usercontrol.ReturnJson();
         }
 
         public ActionResult ChangePassword()
         {
-            //if (string.IsNullOrEmpty(Request.QueryString["code"]))
-            //    return RedirectToAction("Index", "AccessDenied");
-            //else 
-            //{
+            if (string.IsNullOrEmpty(Request.QueryString["code"]))
+                return RedirectToAction("Index", "AccessDenied");
+            else if (Request.QueryString["code"] == "0")
+            {
+                return RedirectToAction("Index", "AccessDenied");
+            }
+            else
+            {
                 UserFunctions usercontrol = new UserFunctions();
                 string verification = Request.QueryString["code"];
                 dt_User user = usercontrol.FindUserByVerification(verification);
                 if (user != null)
                 {
-                //    ViewBag.userid = user.UserId;
-                    ViewBag.username = "12";
-                //    return View();
+
+                    ViewBag.code = verification;
                 }
-                ViewBag.username = verification;
-            //    else
-            //    {
-            //        return RedirectToAction("Index", "AccessDenied");
-            //    }
-            //}
+                else
+                {
+                    return RedirectToAction("Index", "AccessDenied");
+                }
+            }
             return View();
+        }
+
+        [HttpPost]
+        public string ChangePass(FormCollection collection)
+        {
+            UserFunctions usercontrol = new UserFunctions();
+            try
+            {
+                string verification = collection["code"];
+
+                if (!string.IsNullOrEmpty(collection["Password"]) || !string.IsNullOrEmpty(verification))
+                {
+                    dt_User user = usercontrol.FindUserByVerification(verification);
+                    string newpassword = collection["Password"];
+                    if (user != null)
+                    {
+                        usercontrol.ChangePassword(user,newpassword);
+                        usercontrol.Jsonmodel.Message = "Şifre sıfırlama başarılı.";
+                        usercontrol.Jsonmodel.Success = "success";
+
+                    }
+                    else
+                    {
+                        usercontrol.Jsonmodel.Message = "Şifre sıfırlama başarısız.Şifre değiştirilemedi.";
+                        usercontrol.Jsonmodel.Success = "fail";
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                usercontrol.Jsonmodel.Message = "Şifre sıfırlama başarısız.Şifre değiştirilemedi.";
+                usercontrol.Jsonmodel.Success = "fail";
+            }
+
+            return usercontrol.ReturnJson();
         }
     }
 }
