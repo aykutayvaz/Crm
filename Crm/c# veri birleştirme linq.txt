@@ -1,0 +1,55 @@
+   //var query = SME.tbl_urunler.Where
+             //   (x=>x.tbl_urunler_kod.id == x.kod_id  || 
+             //   x.kod_id == null).Select(x=>new {x.id});
+
+
+            //List<ServiceView> newList = c.dt_Defect
+
+            // .Select(m => new DefectView
+            // {
+            //     ArýzaID = m.DefectId,
+            //     //ArýzayýGirenId = m.ServiceEnteringPersonId,
+            //     //ProjeID =m.ProjectId,
+            //     //BölgeID = m.ServiceRegionId,
+            //     KayýtTarihi = m.DefectRecordDate,
+            //     //DurumID = m.ServiceStatus,
+            //     //DurumÝsim = c.lu_ServiceStatus.Where(b => b.StatusId == m.ServiceStatus).Select(u => u.StatusName).FirstOrDefault(),
+            //     //DeðiþenParçaVarmý = m.isReplacedPart,
+            //     //Þikayetialan = m.ComplaintName,
+            //     //ÞikayetialanDetay = m.ComplaintDetail,
+            //     ArýzaNot = m.DefectNote, //DateTime UpdatedTime = _objHotelPackageOrder.UpdatedDate ?? DateTime.Now; Nullable datetime? oluyor
+            //     //BölgeÝsmi = c.lu_Region.Where(b => b.RegionId == m.ServiceRegionId).Select(u => u.RegionName).FirstOrDefault(),
+            //     //ProjeÝsmi = c.dt_Project.Where(p => p.ProjectId == m.ProjectId).Select(u => u.ProjectName).FirstOrDefault(),
+            // }).ToList();
+
+
+            //ViewBag.CurrentUsername = this.User.Identity.Name;
+            
+            //ViewBag.CurrentUserid = Request.Cookies["User"].Value.ToString();
+          //  var q = from e in Entries
+          //select new
+          //{
+          //     EntryID = e.EntryID,
+          //     EntryName = e.EntryName,
+          //     EntryDescription = e.EntryDescription,
+          //     VoterID = voterID,
+          //     Score = (int?)(from v in e.Votes
+          //                    where v.VoterID == voterID 
+          //                    select v.Score).FirstOrDefault()
+
+
+
+ //var servisler =  (from servis in c.dt_Service
+            //                 select new ServiceView()
+            //                 {
+            //                     ServisID = servis.ServiceId,
+            //                     BölgeÝsmi = from b in c.lu_Region where b.RegionId == servis.ServiceRegionId select b.RegionName,
+            //                     ProjeÝsmi = from p in c.dt_Project where p.ProjectId == servis.ProjectId select p.ProjectName,
+            //                 }).ToList();
+
+            //var item = (from Comp in ServiceGroupdb.ServiceGroupes
+            //            where (Comp.GroupID == groupID)
+            //            select Comp.Name).Single();
+
+
+            //ViewBag.servisler = newList;

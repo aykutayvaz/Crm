@@ -1,8 +1,113 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="CRMModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
   <EntityContainer Name="CRMModelStoreContainer">
+    <EntitySet Name="dt_Defect" EntityType="CRMModel.Store.dt_Defect" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="dt_Part" EntityType="CRMModel.Store.dt_Part" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="dt_Project" EntityType="CRMModel.Store.dt_Project" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="dt_Service" EntityType="CRMModel.Store.dt_Service" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="dt_User" EntityType="CRMModel.Store.dt_User" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="lu_PartName" EntityType="CRMModel.Store.lu_PartName" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="lu_Region" EntityType="CRMModel.Store.lu_Region" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="sysdiagrams" EntityType="CRMModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tx_DefectService" EntityType="CRMModel.Store.tx_DefectService" store:Type="Tables" store:Schema="dbo" store:Name="tx_DefectService">
+      <DefiningQuery>SELECT 
+      [tx_DefectService].[DefectId] AS [DefectId], 
+      [tx_DefectService].[ServiceId] AS [ServiceId]
+      FROM [dbo].[tx_DefectService] AS [tx_DefectService]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tx_ProjectParts" EntityType="CRMModel.Store.tx_ProjectParts" store:Type="Tables" store:Schema="dbo" store:Name="tx_ProjectParts">
+      <DefiningQuery>SELECT 
+      [tx_ProjectParts].[ProjectId] AS [ProjectId], 
+      [tx_ProjectParts].[PartId] AS [PartId]
+      FROM [dbo].[tx_ProjectParts] AS [tx_ProjectParts]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="tx_ServiceParts" EntityType="CRMModel.Store.tx_ServiceParts" store:Type="Tables" store:Schema="dbo" store:Name="tx_ServiceParts">
+      <DefiningQuery>SELECT 
+      [tx_ServiceParts].[ServiceId] AS [ServiceId], 
+      [tx_ServiceParts].[PartId] AS [PartId]
+      FROM [dbo].[tx_ServiceParts] AS [tx_ServiceParts]</DefiningQuery>
+    </EntitySet>
+    <EntitySet Name="vW_Arızalar" EntityType="CRMModel.Store.vW_Arızalar" store:Type="Views" store:Schema="dbo" store:Name="vW_Arızalar">
+      <DefiningQuery>SELECT 
+      [vW_Arızalar].[DefectId] AS [DefectId], 
+      [vW_Arızalar].[ProjectId] AS [ProjectId], 
+      [vW_Arızalar].[ComplaintDetail] AS [ComplaintDetail], 
+      [vW_Arızalar].[ComplaintName] AS [ComplaintName], 
+      [vW_Arızalar].[DefectStatus] AS [DefectStatus], 
+      [vW_Arızalar].[DefectNote] AS [DefectNote], 
+      [vW_Arızalar].[DefectRecordDate] AS [DefectRecordDate], 
+      [vW_Arızalar].[ProjectName] AS [ProjectName], 
+      [vW_Arızalar].[LastModificatorId] AS [LastModificatorId], 
+      [vW_Arızalar].[LastModificationDate] AS [LastModificationDate], 
+      [vW_Arızalar].[LastModificationNote] AS [LastModificationNote], 
+      [vW_Arızalar].[UserName] AS [UserName]
+      FROM [dbo].[vW_Arızalar] AS [vW_Arızalar]</DefiningQuery>
+    </EntitySet>
+    <AssociationSet Name="FK_dt_Part_lu_PartName" Association="CRMModel.Store.FK_dt_Part_lu_PartName">
+      <End Role="lu_PartName" EntitySet="lu_PartName" />
+      <End Role="dt_Part" EntitySet="dt_Part" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dt_Service_lu_Region" Association="CRMModel.Store.FK_dt_Service_lu_Region">
+      <End Role="lu_Region" EntitySet="lu_Region" />
+      <End Role="dt_Service" EntitySet="dt_Service" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tx_ProjectParts_dt_Part" Association="CRMModel.Store.FK_tx_ProjectParts_dt_Part">
+      <End Role="dt_Part" EntitySet="dt_Part" />
+      <End Role="tx_ProjectParts" EntitySet="tx_ProjectParts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tx_ProjectParts_dt_Project" Association="CRMModel.Store.FK_tx_ProjectParts_dt_Project">
+      <End Role="dt_Project" EntitySet="dt_Project" />
+      <End Role="tx_ProjectParts" EntitySet="tx_ProjectParts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tx_ServiceParts_dt_Part" Association="CRMModel.Store.FK_tx_ServiceParts_dt_Part">
+      <End Role="dt_Part" EntitySet="dt_Part" />
+      <End Role="tx_ServiceParts" EntitySet="tx_ServiceParts" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="dt_Defect">
+    <Key>
+      <PropertyRef Name="DefectId" />
+    </Key>
+    <Property Name="DefectId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectId" Type="int" Nullable="false" />
+    <Property Name="ComplaintName" Type="nvarchar" MaxLength="100" />
+    <Property Name="ComplaintDetail" Type="nvarchar" MaxLength="255" />
+    <Property Name="DefectStatus" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="DefectNote" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="DefectRecordDate" Type="datetime" Nullable="false" />
+    <Property Name="LastModificatorId" Type="int" />
+    <Property Name="LastModificationDate" Type="datetime" />
+    <Property Name="LastModificationNote" Type="nvarchar" MaxLength="255" />
+  </EntityType>
+  <EntityType Name="dt_Part">
+    <Key>
+      <PropertyRef Name="PartId" />
+    </Key>
+    <Property Name="PartId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PartTypeId" Type="int" />
+    <Property Name="PartName" Type="nvarchar" MaxLength="100" />
+    <Property Name="PartPrice" Type="float" />
+    <Property Name="PartCount" Type="int" />
+    <Property Name="PriceType" Type="nvarchar" MaxLength="10" />
+  </EntityType>
+  <EntityType Name="dt_Project">
+    <Key>
+      <PropertyRef Name="ProjectId" />
+    </Key>
+    <Property Name="ProjectId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="dt_Service">
+    <Key>
+      <PropertyRef Name="ServiceId" />
+    </Key>
+    <Property Name="ServiceId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectId" Type="int" Nullable="false" />
+    <Property Name="ServiceRegionId" Type="int" Nullable="false" />
+    <Property Name="ServiceEnteringPersonId" Type="int" Nullable="false" />
+    <Property Name="RecordDate" Type="datetime" Nullable="false" />
+    <Property Name="ServiceNote" Type="nvarchar" MaxLength="255" />
+  </EntityType>
   <EntityType Name="dt_User">
     <Key>
       <PropertyRef Name="UserId" />
@@ -16,4 +121,145 @@
     <Property Name="Role" Type="nvarchar" MaxLength="50" />
     <Property Name="VerificationCode" Type="nvarchar" MaxLength="40" />
   </EntityType>
+  <EntityType Name="lu_PartName">
+    <Key>
+      <PropertyRef Name="PartTypeId" />
+    </Key>
+    <Property Name="PartTypeId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="PartTypeName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="lu_Region">
+    <Key>
+      <PropertyRef Name="RegionId" />
+    </Key>
+    <Property Name="RegionId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="RegionName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'CRM.dbo.tx_DefectService' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="tx_DefectService">
+    <Key>
+      <PropertyRef Name="DefectId" />
+      <PropertyRef Name="ServiceId" />
+    </Key>
+    <Property Name="DefectId" Type="int" Nullable="false" />
+    <Property Name="ServiceId" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'CRM.dbo.tx_ProjectParts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="tx_ProjectParts">
+    <Key>
+      <PropertyRef Name="ProjectId" />
+      <PropertyRef Name="PartId" />
+    </Key>
+    <Property Name="ProjectId" Type="int" Nullable="false" />
+    <Property Name="PartId" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'CRM.dbo.tx_ServiceParts' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="tx_ServiceParts">
+    <Key>
+      <PropertyRef Name="ServiceId" />
+      <PropertyRef Name="PartId" />
+    </Key>
+    <Property Name="ServiceId" Type="int" Nullable="false" />
+    <Property Name="PartId" Type="int" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+      warning 6002: The table/view 'CRM.dbo.vW_Arızalar' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+  <EntityType Name="vW_Arızalar">
+    <Key>
+      <PropertyRef Name="DefectId" />
+      <PropertyRef Name="ProjectId" />
+      <PropertyRef Name="DefectStatus" />
+      <PropertyRef Name="DefectNote" />
+      <PropertyRef Name="DefectRecordDate" />
+    </Key>
+    <Property Name="DefectId" Type="int" Nullable="false" />
+    <Property Name="ProjectId" Type="int" Nullable="false" />
+    <Property Name="ComplaintDetail" Type="nvarchar" MaxLength="255" />
+    <Property Name="ComplaintName" Type="nvarchar" MaxLength="100" />
+    <Property Name="DefectStatus" Type="nvarchar" Nullable="false" MaxLength="100" />
+    <Property Name="DefectNote" Type="nvarchar" Nullable="false" MaxLength="255" />
+    <Property Name="DefectRecordDate" Type="datetime" Nullable="false" />
+    <Property Name="ProjectName" Type="nvarchar" MaxLength="100" />
+    <Property Name="LastModificatorId" Type="int" />
+    <Property Name="LastModificationDate" Type="datetime" />
+    <Property Name="LastModificationNote" Type="nvarchar" MaxLength="255" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <Association Name="FK_dt_Part_lu_PartName">
+    <End Role="lu_PartName" Type="CRMModel.Store.lu_PartName" Multiplicity="0..1" />
+    <End Role="dt_Part" Type="CRMModel.Store.dt_Part" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lu_PartName">
+        <PropertyRef Name="PartTypeId" />
+      </Principal>
+      <Dependent Role="dt_Part">
+        <PropertyRef Name="PartTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dt_Service_lu_Region">
+    <End Role="lu_Region" Type="CRMModel.Store.lu_Region" Multiplicity="1" />
+    <End Role="dt_Service" Type="CRMModel.Store.dt_Service" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lu_Region">
+        <PropertyRef Name="RegionId" />
+      </Principal>
+      <Dependent Role="dt_Service">
+        <PropertyRef Name="ServiceRegionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tx_ProjectParts_dt_Part">
+    <End Role="dt_Part" Type="CRMModel.Store.dt_Part" Multiplicity="1" />
+    <End Role="tx_ProjectParts" Type="CRMModel.Store.tx_ProjectParts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dt_Part">
+        <PropertyRef Name="PartId" />
+      </Principal>
+      <Dependent Role="tx_ProjectParts">
+        <PropertyRef Name="PartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tx_ProjectParts_dt_Project">
+    <End Role="dt_Project" Type="CRMModel.Store.dt_Project" Multiplicity="1" />
+    <End Role="tx_ProjectParts" Type="CRMModel.Store.tx_ProjectParts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dt_Project">
+        <PropertyRef Name="ProjectId" />
+      </Principal>
+      <Dependent Role="tx_ProjectParts">
+        <PropertyRef Name="ProjectId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tx_ServiceParts_dt_Part">
+    <End Role="dt_Part" Type="CRMModel.Store.dt_Part" Multiplicity="1" />
+    <End Role="tx_ServiceParts" Type="CRMModel.Store.tx_ServiceParts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dt_Part">
+        <PropertyRef Name="PartId" />
+      </Principal>
+      <Dependent Role="tx_ServiceParts">
+        <PropertyRef Name="PartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

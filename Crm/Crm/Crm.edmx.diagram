@@ -4,8 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7f5c3078828c4f83bb35e471811cdf95" Name="Diagram1">
-        <EntityTypeShape EntityType="CRMModel.dt_User" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="1a29c506dc584736b02170a5372e97fa" Name="Diagram1">
+        <EntityTypeShape EntityType="CRMModel.dt_Defect" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.dt_Part" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.dt_Project" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.dt_Service" Width="1.5" PointX="3" PointY="6" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.dt_User" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.lu_PartName" Width="1.5" PointX="0.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.lu_Region" Width="1.5" PointX="0.75" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.sysdiagrams" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.tx_DefectService" Width="1.5" PointX="7.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.tx_ServiceParts" Width="1.5" PointX="5.25" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="CRMModel.vW_Arızalar" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="CRMModel.FK_dt_Part_lu_PartName" ManuallyRouted="false" />
+        <AssociationConnector Association="CRMModel.FK_tx_ServiceParts_dt_Part" ManuallyRouted="false" />
+        <AssociationConnector Association="CRMModel.FK_dt_Service_lu_Region" ManuallyRouted="false" />
+        <AssociationConnector Association="CRMModel.tx_ProjectParts" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

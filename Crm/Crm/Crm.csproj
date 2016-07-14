@@ -146,14 +146,35 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Crm.edmx</DependentUpon>
     </Compile>
+    <Compile Include="dt_Defect.cs">
+      <DependentUpon>Crm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dt_Part.cs">
+      <DependentUpon>Crm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dt_Project.cs">
+      <DependentUpon>Crm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="dt_Service.cs">
+      <DependentUpon>Crm.tt</DependentUpon>
+    </Compile>
     <Compile Include="dt_User.cs">
       <DependentUpon>Crm.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="lu_PartName.cs">
+      <DependentUpon>Crm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="lu_Region.cs">
+      <DependentUpon>Crm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DefectView.cs" />
     <Compile Include="Models\JsonModel.cs" />
     <Compile Include="Models\Repository.cs" />
+    <Compile Include="Models\ServiceFunctions.cs" />
+    <Compile Include="Models\ServiceView.cs" />
     <Compile Include="Models\UserFunctions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\BaseController.cs" />
@@ -161,8 +182,22 @@
     <Compile Include="Security\CustomIdentity.cs" />
     <Compile Include="Security\CustomPrincipal.cs" />
     <Compile Include="Security\SimpleSessionPersister.cs" />
+    <Compile Include="sysdiagrams.cs">
+      <DependentUpon>Crm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tx_DefectService.cs">
+      <DependentUpon>Crm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tx_ServiceParts.cs">
+      <DependentUpon>Crm.tt</DependentUpon>
+    </Compile>
+    <Compile Include="vW_Arızalar.cs">
+      <DependentUpon>Crm.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\datatable\datatable.min.js" />
+    <Content Include="Content\datatable\datatable.min.css" />
     <Content Include="Content\gentella\build\css\custom.css" />
     <Content Include="Content\gentella\build\css\custom.min.css" />
     <Content Include="Content\gentella\build\js\custom.js" />
@@ -2606,6 +2641,7 @@
     <Content Include="Content\gentella\vendors\validator\multifield.js" />
     <Content Include="Content\gentella\vendors\validator\validator.js" />
     <Content Include="Content\images.jpg" />
+    <Content Include="js\jquery-3.0.0.js" />
     <Content Include="js\noty\jquery.noty.js" />
     <Content Include="js\noty\layouts\animate.css" />
     <Content Include="js\noty\layouts\bottom.js" />
@@ -2686,23 +2722,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <EntityDeploy Include="Crm.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Crm.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Crm.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Crm.edmx</DependentUpon>
-      <LastGenOutput>Crm.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Crm.edmx.diagram">
-      <DependentUpon>Crm.edmx</DependentUpon>
-    </Content>
-    <Content Include="Crm.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Crm.edmx</DependentUpon>
-      <LastGenOutput>Crm.cs</LastGenOutput>
-    </Content>
     <Content Include="Content\gentella\vendors\animate.css\.bower.json" />
     <Content Include="Content\gentella\vendors\animate.css\animate-config.json" />
     <Content Include="Content\gentella\vendors\animate.css\bower.json" />
@@ -3508,6 +3527,23 @@
     <Content Include="Content\gentella\vendors\validator\README.md" />
     <Content Include="Content\gentella\vendors\validator\validator.jquery.json" />
     <Content Include="Content\gentella\js\maps\us-unemployment.json" />
+    <EntityDeploy Include="Crm.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Crm.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Crm.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Crm.edmx</DependentUpon>
+      <LastGenOutput>Crm.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Crm.edmx.diagram">
+      <DependentUpon>Crm.edmx</DependentUpon>
+    </Content>
+    <Content Include="Crm.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>Crm.edmx</DependentUpon>
+      <LastGenOutput>Crm.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="images\spin.gif" />
     <Content Include="Photos\Penguins.jpg" />

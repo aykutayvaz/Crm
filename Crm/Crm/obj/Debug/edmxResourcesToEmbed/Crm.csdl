@@ -1,8 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="CRMModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
   <EntityContainer Name="CRMEntities" p1:LazyLoadingEnabled="true">
+    <EntitySet Name="dt_Defect" EntityType="CRMModel.dt_Defect" />
+    <EntitySet Name="dt_Part" EntityType="CRMModel.dt_Part" />
+    <EntitySet Name="dt_Project" EntityType="CRMModel.dt_Project" />
+    <EntitySet Name="dt_Service" EntityType="CRMModel.dt_Service" />
     <EntitySet Name="dt_User" EntityType="CRMModel.dt_User" />
+    <EntitySet Name="lu_PartName" EntityType="CRMModel.lu_PartName" />
+    <EntitySet Name="lu_Region" EntityType="CRMModel.lu_Region" />
+    <EntitySet Name="sysdiagrams" EntityType="CRMModel.sysdiagrams" />
+    <EntitySet Name="tx_DefectService" EntityType="CRMModel.tx_DefectService" />
+    <EntitySet Name="tx_ServiceParts" EntityType="CRMModel.tx_ServiceParts" />
+    <EntitySet Name="vW_Arızalar" EntityType="CRMModel.vW_Arızalar" />
+    <AssociationSet Name="FK_dt_Part_lu_PartName" Association="CRMModel.FK_dt_Part_lu_PartName">
+      <End Role="lu_PartName" EntitySet="lu_PartName" />
+      <End Role="dt_Part" EntitySet="dt_Part" />
+    </AssociationSet>
+    <AssociationSet Name="FK_tx_ServiceParts_dt_Part" Association="CRMModel.FK_tx_ServiceParts_dt_Part">
+      <End Role="dt_Part" EntitySet="dt_Part" />
+      <End Role="tx_ServiceParts" EntitySet="tx_ServiceParts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dt_Service_lu_Region" Association="CRMModel.FK_dt_Service_lu_Region">
+      <End Role="lu_Region" EntitySet="lu_Region" />
+      <End Role="dt_Service" EntitySet="dt_Service" />
+    </AssociationSet>
+    <AssociationSet Name="tx_ProjectParts" Association="CRMModel.tx_ProjectParts">
+      <End Role="dt_Part" EntitySet="dt_Part" />
+      <End Role="dt_Project" EntitySet="dt_Project" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="dt_Defect">
+    <Key>
+      <PropertyRef Name="DefectId" />
+    </Key>
+    <Property Name="DefectId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectId" Type="Int32" Nullable="false" />
+    <Property Name="ComplaintName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="ComplaintDetail" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="DefectStatus" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="DefectNote" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="DefectRecordDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="LastModificatorId" Type="Int32" />
+    <Property Name="LastModificationDate" Type="DateTime" Precision="3" />
+    <Property Name="LastModificationNote" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="dt_Part">
+    <Key>
+      <PropertyRef Name="PartId" />
+    </Key>
+    <Property Name="PartId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="PartTypeId" Type="Int32" />
+    <Property Name="PartName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="PartPrice" Type="Double" />
+    <Property Name="PartCount" Type="Int32" />
+    <Property Name="PriceType" Type="String" MaxLength="10" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="lu_PartName" Relationship="CRMModel.FK_dt_Part_lu_PartName" FromRole="dt_Part" ToRole="lu_PartName" />
+    <NavigationProperty Name="tx_ServiceParts" Relationship="CRMModel.FK_tx_ServiceParts_dt_Part" FromRole="dt_Part" ToRole="tx_ServiceParts" />
+    <NavigationProperty Name="dt_Project" Relationship="CRMModel.tx_ProjectParts" FromRole="dt_Part" ToRole="dt_Project" />
+  </EntityType>
+  <EntityType Name="dt_Project">
+    <Key>
+      <PropertyRef Name="ProjectId" />
+    </Key>
+    <Property Name="ProjectId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="dt_Part" Relationship="CRMModel.tx_ProjectParts" FromRole="dt_Project" ToRole="dt_Part" />
+  </EntityType>
+  <EntityType Name="dt_Service">
+    <Key>
+      <PropertyRef Name="ServiceId" />
+    </Key>
+    <Property Name="ServiceId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="ProjectId" Type="Int32" Nullable="false" />
+    <Property Name="ServiceRegionId" Type="Int32" Nullable="false" />
+    <Property Name="ServiceEnteringPersonId" Type="Int32" Nullable="false" />
+    <Property Name="RecordDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ServiceNote" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="lu_Region" Relationship="CRMModel.FK_dt_Service_lu_Region" FromRole="dt_Service" ToRole="lu_Region" />
+  </EntityType>
   <EntityType Name="dt_User">
     <Key>
       <PropertyRef Name="UserId" />
@@ -16,4 +91,108 @@
     <Property Name="Role" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
     <Property Name="VerificationCode" Type="String" MaxLength="40" Unicode="true" FixedLength="false" />
   </EntityType>
+  <EntityType Name="lu_PartName">
+    <Key>
+      <PropertyRef Name="PartTypeId" />
+    </Key>
+    <Property Name="PartTypeId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="PartTypeName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="dt_Part" Relationship="CRMModel.FK_dt_Part_lu_PartName" FromRole="lu_PartName" ToRole="dt_Part" />
+  </EntityType>
+  <EntityType Name="lu_Region">
+    <Key>
+      <PropertyRef Name="RegionId" />
+    </Key>
+    <Property Name="RegionId" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="RegionName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <NavigationProperty Name="dt_Service" Relationship="CRMModel.FK_dt_Service_lu_Region" FromRole="lu_Region" ToRole="dt_Service" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="tx_DefectService">
+    <Key>
+      <PropertyRef Name="DefectId" />
+      <PropertyRef Name="ServiceId" />
+    </Key>
+    <Property Name="DefectId" Type="Int32" Nullable="false" />
+    <Property Name="ServiceId" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tx_ServiceParts">
+    <Key>
+      <PropertyRef Name="ServiceId" />
+      <PropertyRef Name="PartId" />
+    </Key>
+    <Property Name="ServiceId" Type="Int32" Nullable="false" />
+    <Property Name="PartId" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="dt_Part" Relationship="CRMModel.FK_tx_ServiceParts_dt_Part" FromRole="tx_ServiceParts" ToRole="dt_Part" />
+  </EntityType>
+  <EntityType Name="vW_Arızalar">
+    <Key>
+      <PropertyRef Name="DefectId" />
+      <PropertyRef Name="ProjectId" />
+      <PropertyRef Name="DefectStatus" />
+      <PropertyRef Name="DefectNote" />
+      <PropertyRef Name="DefectRecordDate" />
+    </Key>
+    <Property Name="DefectId" Type="Int32" Nullable="false" />
+    <Property Name="ProjectId" Type="Int32" Nullable="false" />
+    <Property Name="ComplaintDetail" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="ComplaintName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="DefectStatus" Type="String" Nullable="false" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="DefectNote" Type="String" Nullable="false" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="DefectRecordDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ProjectName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+    <Property Name="LastModificatorId" Type="Int32" />
+    <Property Name="LastModificationDate" Type="DateTime" Precision="3" />
+    <Property Name="LastModificationNote" Type="String" MaxLength="255" Unicode="true" FixedLength="false" />
+    <Property Name="UserName" Type="String" MaxLength="100" Unicode="true" FixedLength="false" />
+  </EntityType>
+  <Association Name="FK_dt_Part_lu_PartName">
+    <End Role="lu_PartName" Type="CRMModel.lu_PartName" Multiplicity="0..1" />
+    <End Role="dt_Part" Type="CRMModel.dt_Part" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lu_PartName">
+        <PropertyRef Name="PartTypeId" />
+      </Principal>
+      <Dependent Role="dt_Part">
+        <PropertyRef Name="PartTypeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_tx_ServiceParts_dt_Part">
+    <End Role="dt_Part" Type="CRMModel.dt_Part" Multiplicity="1" />
+    <End Role="tx_ServiceParts" Type="CRMModel.tx_ServiceParts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="dt_Part">
+        <PropertyRef Name="PartId" />
+      </Principal>
+      <Dependent Role="tx_ServiceParts">
+        <PropertyRef Name="PartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dt_Service_lu_Region">
+    <End Role="lu_Region" Type="CRMModel.lu_Region" Multiplicity="1" />
+    <End Role="dt_Service" Type="CRMModel.dt_Service" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="lu_Region">
+        <PropertyRef Name="RegionId" />
+      </Principal>
+      <Dependent Role="dt_Service">
+        <PropertyRef Name="ServiceRegionId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="tx_ProjectParts">
+    <End Role="dt_Part" Type="CRMModel.dt_Part" Multiplicity="*" />
+    <End Role="dt_Project" Type="CRMModel.dt_Project" Multiplicity="*" />
+  </Association>
 </Schema>

@@ -25,6 +25,16 @@ namespace Crm
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<dt_Defect> dt_Defect { get; set; }
+        public DbSet<dt_Part> dt_Part { get; set; }
+        public DbSet<dt_Project> dt_Project { get; set; }
+        public DbSet<dt_Service> dt_Service { get; set; }
         public DbSet<dt_User> dt_User { get; set; }
+        public DbSet<lu_PartName> lu_PartName { get; set; }
+        public DbSet<lu_Region> lu_Region { get; set; }
+        public DbSet<sysdiagrams> sysdiagrams { get; set; }
+        public DbSet<tx_DefectService> tx_DefectService { get; set; }
+        public DbSet<tx_ServiceParts> tx_ServiceParts { get; set; }
+        public DbSet<vW_Arızalar> vW_Arızalar { get; set; }
     }
 }
